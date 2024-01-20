@@ -1,7 +1,10 @@
 import questionSlice, { DifficultyLevel } from "@/redux/questionSlice";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useLazyGetListQuestionsQuery } from "@/services/question_api";
-import { useGetListCategoryQuery } from "@/services/trivia_category_api";
+import {
+  useGetListCategoryQuery,
+  useLazyGetListCategoryQuery,
+} from "@/services/trivia_category_api";
 import { TriviaCategories } from "@/services/types";
 import { useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -13,6 +16,7 @@ const HomeViewModel = () => {
     isFetching,
     isError: isErrorCategory,
   } = useGetListCategoryQuery();
+  const [getListCategoryQuery] = useLazyGetListCategoryQuery();
   const [searchParams, setSearchParams] = useSearchParams();
   const category_id = searchParams.get("category_id");
   const difficult = searchParams.get("difficult");
@@ -26,7 +30,6 @@ const HomeViewModel = () => {
       currentData = [],
     },
   ] = useLazyGetListQuestionsQuery();
-  console.log("error", isErrorQuestion, currentData);
   const { difficultyLevels, selectedDifficult, selectedCategory } =
     useAppSelector((state: RootState) => state.question);
   const onChangeValueCategory = (value: TriviaCategories | null) => {
@@ -62,23 +65,37 @@ const HomeViewModel = () => {
     isLoadingQuestion,
     isFetchingQuestion,
   ]);
-  useEffect(() => {
-    console.log("ren-render 1", category_id, selectedCategory);
+  const onRetryGetCategory = () => {
+    if (isErrorCategory) {
+      getListCategoryQuery();
+    }
+  };
+  const onHandleDefaultCategory = () => {
     if (
       category_id &&
       data?.length &&
       parseFloat(category_id) !== selectedCategory?.id
     ) {
-      console.log("ren-render 2", selectedCategory);
       const find = data?.find((item) => item?.id === parseFloat(category_id));
       dispatch(questionSlice.actions.onSetSelectedCategory(find ?? null));
     }
+  };
+  const onHandleDefaultDifficult = () => {
     if (difficult && data?.length && difficult !== selectedDifficult?.value) {
       const find = difficultyLevels?.find((item) => item?.value === difficult);
       dispatch(questionSlice.actions.onSetSelectedDifficult(find ?? null));
     }
+  };
+  useEffect(() => {
+    onHandleDefaultCategory();
+    onHandleDefaultDifficult();
   }, [category_id, data, difficult]);
-
+  useEffect(() => {
+    return () => {
+      dispatch(questionSlice.actions.onSetSelectedDifficult(null));
+      dispatch(questionSlice.actions.onSetSelectedCategory(null));
+    };
+  }, []);
   return {
     data,
     isFetching,
@@ -94,7 +111,7 @@ const HomeViewModel = () => {
     isFetchingQuestion,
     isLoadingQuestion,
     isErrorQuestion,
-    isErrorCategory,
+    onRetryGetCategory,
   };
 };
 

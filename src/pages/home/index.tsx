@@ -22,6 +22,7 @@ const HomePage = () => {
     isFetchingQuestion,
     isLoadingQuestion,
     isErrorQuestion,
+    onRetryGetCategory,
   } = HomeViewModel();
   return (
     <Box component={"div"} className="container">
@@ -32,6 +33,7 @@ const HomePage = () => {
           id="categorySelect"
           value={selectedCategory}
           options={data ?? []}
+          onOpen={onRetryGetCategory}
           onChange={(_, newValue) => onChangeValueCategory(newValue)}
           getOptionLabel={(option) => option?.name ?? ""}
           getOptionKey={(option) => option?.id}
