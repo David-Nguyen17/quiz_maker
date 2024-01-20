@@ -20,5 +20,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </ErrorBoundary>
       </CssVarsProvider>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

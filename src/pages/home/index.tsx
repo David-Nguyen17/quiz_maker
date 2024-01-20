@@ -1,12 +1,13 @@
-import AppButton from "@/components/AppButton";
-import Loading from "@/components/Loading";
-import HomeViewModel from "@/view-model/HomeViewModel";
 import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+
+import AppButton from "@/components/AppButton";
+import Loading from "@/components/Loading";
+import HomeViewModel from "@/view-model/HomeViewModel";
 import ListQuestion from "./components/ListQuestion";
 
-const HomePage = () => {
+function HomePage() {
   const {
     data,
     difficultyLevels,
@@ -24,8 +25,15 @@ const HomePage = () => {
     isErrorQuestion,
     onRetryGetCategory,
   } = HomeViewModel();
+  const handleRenderBody = () => {
+    if (isLoadingQuestion || isFetchingQuestion) return <Loading />;
+    if (isErrorQuestion) {
+      return <Box>Something when wrong with server (Too many requests)</Box>;
+    }
+    return <ListQuestion data={listQuestion} />;
+  };
   return (
-    <Box component={"div"} className="container">
+    <Box component="div" className="container">
       <Box className="header">QUIZ MAKER</Box>
       <Box sx={{ display: "flex", mb: 4, gap: 2 }}>
         <Autocomplete
@@ -38,7 +46,7 @@ const HomePage = () => {
           getOptionLabel={(option) => option?.name ?? ""}
           getOptionKey={(option) => option?.id}
           sx={{ width: 500 }}
-          noOptionsText={"No Category"}
+          noOptionsText="No Category"
           loading={isLoading || isFetching}
           loadingText={<div>Loading...</div>}
           isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -70,15 +78,9 @@ const HomePage = () => {
           onClick={onCreateQuestion}
         />
       </Box>
-      {isLoadingQuestion || isFetchingQuestion ? (
-        <Loading />
-      ) : isErrorQuestion ? (
-        <Box>Something when wrong with server (Too many requests)</Box>
-      ) : (
-        <ListQuestion data={listQuestion} />
-      )}
+      {handleRenderBody()}
     </Box>
   );
-};
+}
 
 export default HomePage;

@@ -5,11 +5,9 @@ import { ResponseListCategory, TriviaCategories } from "./types";
 export const triviaCategorySlice = requestSlice.injectEndpoints({
   endpoints: (builder) => ({
     getListCategory: builder.query<TriviaCategories[], void>({
-      query: () => {
-        return {
-          url: import.meta.env.VITE_KEY_CATEGORY,
-        };
-      },
+      query: () => ({
+        url: import.meta.env.VITE_KEY_CATEGORY,
+      }),
       transformResponse(response: ResponseListCategory) {
         return uniqBy(response?.trivia_categories ?? [], "id");
       },
@@ -20,5 +18,4 @@ export const triviaCategorySlice = requestSlice.injectEndpoints({
   }),
 });
 
-export const { useGetListCategoryQuery, useLazyGetListCategoryQuery } =
-  triviaCategorySlice;
+export const { useGetListCategoryQuery, useLazyGetListCategoryQuery } = triviaCategorySlice;

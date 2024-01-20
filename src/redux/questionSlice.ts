@@ -1,5 +1,6 @@
-import { TriviaCategories } from "@/services/types";
 import { createSlice } from "@reduxjs/toolkit";
+import { TriviaCategories } from "@/services/types";
+
 export type DifficultType = "Easy" | "Medium" | "Hard";
 export type DifficultValue = "easy" | "medium" | "hard";
 export type DifficultyLevel = {
@@ -28,12 +29,14 @@ const questionSlice = createSlice({
   name: "category",
   initialState,
   reducers: {
-    onSetSelectedDifficult: (state, action) => {
-      state.selectedDifficult = action.payload;
-    },
-    onSetSelectedCategory: (state, action) => {
-      state.selectedCategory = action.payload;
-    },
+    onSetSelectedDifficult: (state, action) => ({
+      ...state,
+      selectedDifficult: action.payload,
+    }),
+    onSetSelectedCategory: (state, action) => ({
+      ...state,
+      selectedCategory: action.payload,
+    }),
   },
 });
 

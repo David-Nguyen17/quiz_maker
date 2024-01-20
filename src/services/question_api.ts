@@ -8,25 +8,21 @@ import { ParamsQuestion, ResponseListQuestion, ResultQuestion } from "./types";
 export const questionSlice = requestSlice.injectEndpoints({
   endpoints: (builder) => ({
     getListQuestions: builder.query<ResultQuestion[], ParamsQuestion>({
-      query: (params) => {
-        return {
-          url: import.meta.env.VITE_KEY_QUESTION,
-          params,
-        };
-      },
+      query: (params) => ({
+        url: import.meta.env.VITE_KEY_QUESTION,
+        params,
+      }),
       transformResponse(response: ResponseListQuestion) {
         if (response?.results?.length) {
-          return uniqBy(response?.results, "question")?.map((item) => {
-            return {
-              ...item,
-              list_answer: randomOrderAnswer([
-                ...(item?.incorrect_answers ?? []),
-                item?.correct_answer,
-              ]),
-              id: uuidv4(),
-              selectedAnswer: "",
-            };
-          });
+          return uniqBy(response?.results, "question")?.map((item) => ({
+            ...item,
+            list_answer: randomOrderAnswer([
+              ...(item?.incorrect_answers ?? []),
+              item?.correct_answer,
+            ]),
+            id: uuidv4(),
+            selectedAnswer: "",
+          }));
         }
         return [];
       },

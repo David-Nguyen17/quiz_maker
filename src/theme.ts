@@ -7,7 +7,7 @@ const theme = extendTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          border: `1px solid green`,
+          border: "1px solid green",
           color: "green",
           borderRadius: 6,
           ":hover": {

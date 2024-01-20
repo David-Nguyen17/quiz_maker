@@ -5,7 +5,7 @@ import { ResultQuestion } from "@/services/types";
 
 const CardQuestionViewModel = (props: ICardQuestionProps) => {
   const { selectedCategory, selectedDifficult } = useAppSelector(
-    (state: RootState) => state.question
+    (state: RootState) => state.question,
   );
   const dispatch = useAppDispatch();
   const { item, isCheckResult } = props;
@@ -20,8 +20,8 @@ const CardQuestionViewModel = (props: ICardQuestionProps) => {
             difficulty: selectedDifficult?.value,
             type: "multiple",
           },
-          (draftListQuestion: ResultQuestion[]) => {
-            return draftListQuestion?.map((element) => {
+          (draftListQuestion: ResultQuestion[]) =>
+            draftListQuestion?.map((element) => {
               if (element?.id === question?.id) {
                 if (element?.selectedAnswer === answer) {
                   return {
@@ -35,25 +35,18 @@ const CardQuestionViewModel = (props: ICardQuestionProps) => {
                 };
               }
               return element;
-            });
-          }
-        )
+            }),
+        ),
       );
     }
   };
-  const handleIsSelected = (answer: string) => {
-    return (
-      answer === item?.selectedAnswer ||
-      (item?.correct_answer === answer && isCheckResult)
-    );
-  };
-  const handleIsError = (answer: string) => {
-    return (
-      isCheckResult &&
-      item?.selectedAnswer === answer &&
-      item?.correct_answer !== item?.selectedAnswer
-    );
-  };
+  const handleIsSelected = (answer: string) =>
+    answer === item?.selectedAnswer ||
+    (item?.correct_answer === answer && isCheckResult);
+  const handleIsError = (answer: string) =>
+    isCheckResult &&
+    item?.selectedAnswer === answer &&
+    item?.correct_answer !== item?.selectedAnswer;
 
   return {
     onSelectAnswer,

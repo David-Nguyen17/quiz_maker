@@ -5,16 +5,18 @@ export interface IProps extends ButtonProps {
   isError?: boolean;
   isSelected?: boolean;
   title: string;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
-const AppButton = (props: IProps) => {
-  const { title, isError, isSelected, onClick, sx = {}, ...rest } = props;
+function AppButton(props: IProps) {
+  const {
+    title, isError, isSelected, onClick, sx = {}, ...rest
+  } = props;
   const stylesSelected = isSelected
     ? {
-        backgroundColor: isError ? "red" : "green",
-        color: "white",
-      }
+      backgroundColor: isError ? "red" : "green",
+      color: "white",
+    }
     : {};
   return (
     <Button
@@ -26,6 +28,6 @@ const AppButton = (props: IProps) => {
       <Typography>{title}</Typography>
     </Button>
   );
-};
+}
 
 export default AppButton;

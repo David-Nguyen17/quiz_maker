@@ -1,3 +1,6 @@
+import { useEffect, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+
 import questionSlice, { DifficultyLevel } from "@/redux/questionSlice";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useLazyGetListQuestionsQuery } from "@/services/question_api";
@@ -6,8 +9,6 @@ import {
   useLazyGetListCategoryQuery,
 } from "@/services/trivia_category_api";
 import { TriviaCategories } from "@/services/types";
-import { useEffect, useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
 
 const HomeViewModel = () => {
   const {
@@ -18,7 +19,7 @@ const HomeViewModel = () => {
   } = useGetListCategoryQuery();
   const [getListCategoryQuery] = useLazyGetListCategoryQuery();
   const [searchParams, setSearchParams] = useSearchParams();
-  const category_id = searchParams.get("category_id");
+  const categoryId = searchParams.get("category_id");
   const difficult = searchParams.get("difficult");
   const dispatch = useAppDispatch();
   const [
@@ -42,7 +43,7 @@ const HomeViewModel = () => {
     if (selectedCategory && selectedDifficult) {
       setSearchParams(
         `?category_id=${selectedCategory?.id}&difficult=${selectedDifficult?.value}`,
-        { replace: true }
+        { replace: true },
       );
       getListQuestion({
         amount: 5,
@@ -52,19 +53,14 @@ const HomeViewModel = () => {
       });
     }
   };
-  const disabled = useMemo(() => {
-    return (
+  const disabled = useMemo(
+    () =>
       !selectedCategory ||
       !selectedDifficult ||
       isLoadingQuestion ||
-      isFetchingQuestion
-    );
-  }, [
-    selectedCategory,
-    selectedDifficult,
-    isLoadingQuestion,
-    isFetchingQuestion,
-  ]);
+      isFetchingQuestion,
+    [selectedCategory, selectedDifficult, isLoadingQuestion, isFetchingQuestion],
+  );
   const onRetryGetCategory = () => {
     if (isErrorCategory) {
       getListCategoryQuery();
@@ -72,11 +68,11 @@ const HomeViewModel = () => {
   };
   const onHandleDefaultCategory = () => {
     if (
-      category_id &&
+      categoryId &&
       data?.length &&
-      parseFloat(category_id) !== selectedCategory?.id
+      parseFloat(categoryId) !== selectedCategory?.id
     ) {
-      const find = data?.find((item) => item?.id === parseFloat(category_id));
+      const find = data?.find((item) => item?.id === parseFloat(categoryId));
       dispatch(questionSlice.actions.onSetSelectedCategory(find ?? null));
     }
   };
@@ -89,13 +85,15 @@ const HomeViewModel = () => {
   useEffect(() => {
     onHandleDefaultCategory();
     onHandleDefaultDifficult();
-  }, [category_id, data, difficult]);
-  useEffect(() => {
-    return () => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryId, data, difficult]);
+  useEffect(
+    () => () => {
       dispatch(questionSlice.actions.onSetSelectedDifficult(null));
       dispatch(questionSlice.actions.onSetSelectedCategory(null));
-    };
-  }, []);
+    },
+    [dispatch],
+  );
   return {
     data,
     isFetching,

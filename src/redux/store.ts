@@ -1,7 +1,8 @@
-import requestSlice from "@/services/request";
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+
+import requestSlice from "@/services/request";
 import questionSlice from "./questionSlice";
 
 export const store = configureStore({

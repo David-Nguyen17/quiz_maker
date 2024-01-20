@@ -1,31 +1,31 @@
-import CardQuestion from "@/pages/home/components/CardQuestion";
-import { ResultQuestion } from "@/services/types";
 import { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import CardQuestion from "@/pages/home/components/CardQuestion";
+import { ResultQuestion } from "@/services/types";
 
 const ResultQuestionViewModel = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const data = useMemo<ResultQuestion[]>(
     () => state?.data ?? ([] as ResultQuestion[]),
-    [state]
+    [state],
   );
-  const renderListQuestion = useMemo(() => {
-    return data?.length
-      ? data?.map((item) => {
-          return (
-            <CardQuestion key={item?.id} item={item} isCheckResult={true} />
-          );
-        })
-      : "";
-  }, [data]);
-  const correctAnswer = useMemo(() => {
-    return (
-      data?.length
-        ? data?.filter((item) => item?.selectedAnswer === item?.correct_answer)
-        : []
-    )?.length;
-  }, [data]);
+  const renderListQuestion = useMemo(
+    () => (data?.length
+      ? data?.map((item) => (
+        <CardQuestion key={item?.id} item={item} isCheckResult />
+      ))
+      : ""),
+    [data],
+  );
+  const correctAnswer = useMemo(
+    () => (data?.length
+      ? data?.filter((item) => item?.selectedAnswer === item?.correct_answer)
+      : []
+    )?.length,
+    [data],
+  );
   const handleBackgroundColor = () => {
     if (correctAnswer === 0 || correctAnswer === 1) {
       return "red";
