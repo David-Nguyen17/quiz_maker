@@ -21,8 +21,8 @@ const HomePage = () => {
     listQuestion,
     isFetchingQuestion,
     isLoadingQuestion,
+    isErrorQuestion,
   } = HomeViewModel();
-  console.log(listQuestion, disabled);
   return (
     <Box component={"div"} className="container">
       <Box className="header">QUIZ MAKER</Box>
@@ -70,6 +70,8 @@ const HomePage = () => {
       </Box>
       {isLoadingQuestion || isFetchingQuestion ? (
         <Loading />
+      ) : isErrorQuestion ? (
+        <Box>Something when wrong with server (Too many requests)</Box>
       ) : (
         <ListQuestion data={listQuestion} />
       )}

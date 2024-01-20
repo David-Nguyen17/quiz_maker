@@ -31,9 +31,12 @@ const ResultQuestionViewModel = () => {
       return "red";
     }
     if (correctAnswer === 2 || correctAnswer === 3) {
-      return "red";
+      return "yellow";
     }
-    return "green";
+    if (correctAnswer === 4 || correctAnswer === 5) {
+      return "green";
+    }
+    return "transparent";
   };
   const onCreateQuiz = () => {
     navigate("/");
