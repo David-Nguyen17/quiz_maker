@@ -5,7 +5,7 @@ import isEqual from "react-fast-compare";
 
 import AppButton from "@/components/AppButton";
 import { convertEntities } from "@/services/function";
-import { ResultQuestion } from "@/services/types";
+import { ResultQuestion } from "@/types/types";
 import CardQuestionViewModel from "@/view-model/CardQuestionViewModel";
 
 export interface ICardQuestionProps {

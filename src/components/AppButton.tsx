@@ -1,5 +1,6 @@
 import Button, { ButtonProps } from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { debounce } from "lodash";
 
 export interface IProps extends ButtonProps {
   isError?: boolean;
@@ -18,10 +19,15 @@ function AppButton(props: IProps) {
       color: "white",
     }
     : {};
+  const onHandleClick = debounce(() => {
+    if (onClick) {
+      onClick();
+    }
+  }, 300);
   return (
     <Button
       variant="outlined"
-      onClick={onClick}
+      onClick={onHandleClick}
       {...rest}
       sx={{ ...stylesSelected, ...sx }}
     >

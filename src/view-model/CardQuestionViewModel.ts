@@ -1,7 +1,7 @@
 import { ICardQuestionProps } from "@/pages/home/components/CardQuestion";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { updateQueryData } from "@/services/question_api";
-import { ResultQuestion } from "@/services/types";
+import { ResultQuestion } from "@/types/types";
 
 const CardQuestionViewModel = (props: ICardQuestionProps) => {
   const { selectedCategory, selectedDifficult } = useAppSelector(

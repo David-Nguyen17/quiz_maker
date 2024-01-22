@@ -12,17 +12,19 @@ const ListQuestionViewModel = (props: IListQuestionProps) => {
     (state: RootState) => state.question,
   );
   const renderListQuestion = useMemo(
-    () => (data?.length
-      ? data?.map((item) => (
-        <CardQuestion key={item?.id} item={item} isCheckResult={false} />
-      ))
-      : ""),
+    () =>
+      (data?.length
+        ? data?.map((item) => (
+          <CardQuestion key={item?.id} item={item} isCheckResult={false} />
+        ))
+        : ""),
     [data],
   );
   const isShowButtonSubmit = useMemo(
-    () => (data?.length
-      ? data?.filter((item) => item?.selectedAnswer)?.length === data?.length
-      : false),
+    () =>
+      (data?.length
+        ? data?.filter((item) => item?.selectedAnswer)?.length === data?.length
+        : false),
     [data],
   );
 

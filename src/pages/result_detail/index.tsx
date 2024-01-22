@@ -24,13 +24,7 @@ function ResultQuestionDetailPage() {
                 backgroundColor: handleBackgroundColor(),
               }}
             >
-              You scored
-              {" "}
-              {correctAnswer}
-              {" "}
-              out of
-              {" "}
-              {data?.length}
+              You scored {correctAnswer} out of {data?.length}
             </Box>
           </Stack>
         ) : null}

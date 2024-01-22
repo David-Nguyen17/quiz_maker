@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TriviaCategories } from "@/services/types";
+import { TriviaCategories } from "@/types/types";
 
 export type DifficultType = "Easy" | "Medium" | "Hard";
 export type DifficultValue = "easy" | "medium" | "hard";

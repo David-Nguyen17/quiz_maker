@@ -1,9 +1,13 @@
 import { uniqBy } from "lodash";
 import { v4 as uuidv4 } from "uuid";
 
+import {
+  ParamsQuestion,
+  ResponseListQuestion,
+  ResultQuestion,
+} from "../types/types";
 import { randomOrderAnswer } from "./function";
 import requestSlice from "./request";
-import { ParamsQuestion, ResponseListQuestion, ResultQuestion } from "./types";
 
 export const questionSlice = requestSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,7 +17,7 @@ export const questionSlice = requestSlice.injectEndpoints({
         params,
       }),
       transformResponse(response: ResponseListQuestion) {
-        if (response?.results?.length) {
+        if (response?.results?.length && response?.response_code === 0) {
           return uniqBy(response?.results, "question")?.map((item) => ({
             ...item,
             list_answer: randomOrderAnswer([

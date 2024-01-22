@@ -28,9 +28,16 @@ function HomePage() {
   const handleRenderBody = () => {
     if (isLoadingQuestion || isFetchingQuestion) return <Loading />;
     if (isErrorQuestion) {
-      return <Box>Something when wrong with server (Too many requests)</Box>;
+      return (
+        <Box>
+          No Results or Something when wrong with server (Too many requests)
+        </Box>
+      );
     }
-    return <ListQuestion data={listQuestion} />;
+    if (listQuestion?.length) {
+      return <ListQuestion data={listQuestion} />;
+    }
+    return <Box />;
   };
   return (
     <Box component="div" className="container">

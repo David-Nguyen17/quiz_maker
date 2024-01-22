@@ -30,6 +30,7 @@ module.exports = {
     "comma-dangle": "off",
     "@typescript-eslint/comma-dangle": "error",
     "implicit-arrow-linebreak": ["off", "below"],
+    "react/jsx-one-expression-per-line": ["off"],
     "react/jsx-props-no-spreading": [
       "off",
       {

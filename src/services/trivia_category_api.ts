@@ -1,6 +1,6 @@
 import { uniqBy } from "lodash";
+import { ResponseListCategory, TriviaCategories } from "../types/types";
 import requestSlice from "./request";
-import { ResponseListCategory, TriviaCategories } from "./types";
 
 export const triviaCategorySlice = requestSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,4 +18,5 @@ export const triviaCategorySlice = requestSlice.injectEndpoints({
   }),
 });
 
-export const { useGetListCategoryQuery, useLazyGetListCategoryQuery } = triviaCategorySlice;
+export const { useGetListCategoryQuery, useLazyGetListCategoryQuery } =
+  triviaCategorySlice;

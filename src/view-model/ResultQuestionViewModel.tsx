@@ -2,28 +2,30 @@ import { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import CardQuestion from "@/pages/home/components/CardQuestion";
-import { ResultQuestion } from "@/services/types";
+import { ResultQuestion } from "@/types/types";
 
 const ResultQuestionViewModel = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const data = useMemo<ResultQuestion[]>(
-    () => state?.data ?? ([] as ResultQuestion[]),
+    () => (state && state?.data?.length ? state?.data : []),
     [state],
   );
   const renderListQuestion = useMemo(
-    () => (data?.length
-      ? data?.map((item) => (
-        <CardQuestion key={item?.id} item={item} isCheckResult />
-      ))
-      : ""),
+    () =>
+      (data?.length
+        ? data?.map((item) => (
+          <CardQuestion key={item?.id} item={item} isCheckResult />
+        ))
+        : ""),
     [data],
   );
   const correctAnswer = useMemo(
-    () => (data?.length
-      ? data?.filter((item) => item?.selectedAnswer === item?.correct_answer)
-      : []
-    )?.length,
+    () =>
+      (data?.length
+        ? data?.filter((item) => item?.selectedAnswer === item?.correct_answer)
+        : []
+      )?.length,
     [data],
   );
   const handleBackgroundColor = () => {

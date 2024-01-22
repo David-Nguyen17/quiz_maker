@@ -8,7 +8,7 @@ import {
   useGetListCategoryQuery,
   useLazyGetListCategoryQuery,
 } from "@/services/trivia_category_api";
-import { TriviaCategories } from "@/services/types";
+import { TriviaCategories } from "@/types/types";
 
 const HomeViewModel = () => {
   const {
@@ -43,7 +43,7 @@ const HomeViewModel = () => {
     if (selectedCategory && selectedDifficult) {
       setSearchParams(
         `?category_id=${selectedCategory?.id}&difficult=${selectedDifficult?.value}`,
-        { replace: true },
+        { replace: true }
       );
       getListQuestion({
         amount: 5,
@@ -59,7 +59,7 @@ const HomeViewModel = () => {
       !selectedDifficult ||
       isLoadingQuestion ||
       isFetchingQuestion,
-    [selectedCategory, selectedDifficult, isLoadingQuestion, isFetchingQuestion],
+    [selectedCategory, selectedDifficult, isLoadingQuestion, isFetchingQuestion]
   );
   const onRetryGetCategory = () => {
     if (isErrorCategory) {
@@ -92,7 +92,7 @@ const HomeViewModel = () => {
       dispatch(questionSlice.actions.onSetSelectedDifficult(null));
       dispatch(questionSlice.actions.onSetSelectedCategory(null));
     },
-    [dispatch],
+    [dispatch]
   );
   return {
     data,

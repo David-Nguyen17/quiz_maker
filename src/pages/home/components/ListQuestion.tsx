@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
 import AppButton from "@/components/AppButton";
-import { ResultQuestion } from "@/services/types";
+import { ResultQuestion } from "@/types/types";
 import ListQuestionViewModel from "@/view-model/ListQuestionViewModel";
 
 export interface IListQuestionProps {
